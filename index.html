@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Date Invitation</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#fffafc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+}
+
+.card{
+    background:white;
+    border-radius:30px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    text-align:center;
+    display:none;
+    animation:fadeIn .4s ease;
+}
+
+.card.active{
+    display:block;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:25px;
+}
+
+h1{
+    color:#5c2b39;
+    margin-bottom:20px;
+    line-height:1.4;
+}
+
+.subtitle{
+    color:#777;
+    margin-top:15px;
+}
+
+.btn-group{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:35px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    padding:15px 35px;
+    border-radius:18px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.yes{
+    background:#ffbfd7;
+}
+
+.no{
+    background:#e8ddff;
+}
+
+button:hover{
+    transform:translateY(-3px);
+}
+
+.food-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-top:30px;
+}
+
+.food{
+    background:#f8f2ff;
+    padding:25px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.food:hover{
+    background:#ffd6e6;
+}
+
+input,select{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    font-size:16px;
+}
+
+.next-btn{
+    background:#ffc5d8;
+    width:100%;
+    margin-top:25px;
+}
+
+.success-image{
+    width:150px;
+    border-radius:20px;
+    margin-bottom:20px;
+}
+
+#statusMessage{
+    min-height:30px;
+    margin-top:20px;
+    font-size:18px;
+    font-weight:600;
+    color:#ff69b4;
+}
+
+.card{
+    background:white;
+    border-radius:30px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    text-align:center;
+    display:none;
+    animation:fadeIn .4s ease;
+
+    position:relative; /* Add this */
+}
+
+.center-food{
+    grid-column: 1 / -1; /* span all columns */
+    max-width: 600px;
+    width: 100%;
+    justify-self: center;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- STEP 1 -->
+    <div class="card active" id="step1">
+
+        <img
+        src="C:\Users\azajs\Downloads\dummy 2 project\1.png"
+        class="avatar">
+
+        <h1>🌸 Will you go on a date with me? 🌸</h1>
+
+        <div class="btn-group">
+            <button
+    id="yesBtn"
+    class="yes"
+    onclick="acceptDate()">
+    YES 💕
+</button>
+            <button class="no" id="noBtn" onclick="handleNoClick()">
+    No 🙈
+</button>
+        </div>
+<div id="statusMessage"></div>
+
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card" id="step2">
+
+        <h1>WAIT YOU ACTUALLY SAID YES?? 😭</h1>
+
+        <p class="subtitle">
+            I was fully prepared for rejection.
+        </p>
+
+        <button class="next-btn" onclick="nextStep(3)">
+            okay! I understand how much you need me →
+        </button>
+
+    </div>
+
+<!-- STEP 3 -->
+    <div class="card" id="step3">
+
+        <h1>🍜 What are we feeling to have?</h1>
+
+        <div class="food-grid">
+
+            <div class="food" onclick="selectFood('South Indian')">🍕 South Indian</div>
+            <div class="food" onclick="selectFood('Japenese')">🍣 Japenese</div>
+            <div class="food" onclick="selectFood('Italian')">🍔 Italian</div>
+            <div class="food" onclick="selectFood('Momos')">🍜 Momos</div>
+           <div class="food center-food" onclick="selectFood('Surprise')">
+    🌮 Do Pal sirf baith kr tumhre hatho se kuch bhi kha lenge
+</div>
+        </div>
+
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card" id="step4">
+
+        <h1>📅 So... when are you free?</h1>
+
+        <input type="date" id="dateInput" required>
+	 <h1>⏰ What Time?</h1>
+
+        <select id="timeInput" required>
+
+            <option value="">Select Time</option>
+
+            <option>5:00 PM</option>
+            <option>6:00 PM</option>
+            <option>7:00 PM</option>
+            <option>8:00 PM</option>
+
+        </select>
+
+        <button class="next-btn" onclick="saveDate()">
+            Set the Date 💌
+        </button>
+
+    </div>
+
+<div class="card" id="step5">
+
+    <img
+        src="C:\Users\azajs\Downloads\dummy 2 project\my.jpeg"
+        class="success-image">
+
+    <h1>🥺 I'm under recovery phase till 20 July 2026</h1>
+
+    <p class="subtitle">
+        Please choose a date after 20 July 2026 my love ❤️
+    </p>
+
+    <button class="next-btn" onclick="nextStep(4)">
+        Pick Another Date
+    </button>
+
+</div>
+
+    <!-- STEP 6 -->
+    <div class="card" id="step6">
+
+        <img
+        src="C:\Users\azajs\Downloads\dummy 2 project\last.png"
+        class="success-image">
+
+        <h1>Can't wait ❤️ for this day</h1>
+
+        <p class="subtitle">
+            Your date has been saved to my heart
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+const dateResponse = {
+    accepted:false,
+    foodChoice:"",
+    selectedDate:"",
+    selectedTime:"",
+    createdAt:new Date()
+};
+
+function nextStep(step){
+
+    document
+    .querySelectorAll('.card')
+    .forEach(card => card.classList.remove('active'));
+
+    document
+    .getElementById('step'+step)
+    .classList.add('active');
+}
+
+function acceptDate(){
+
+    dateResponse.accepted = true;
+
+    nextStep(2);
+}
+
+function selectFood(food){
+
+    dateResponse.foodChoice = food;
+
+    nextStep(4);
+}
+
+function saveDate(){
+
+    const selectedDate =
+        document.getElementById('dateInput').value;
+
+    const selectedTime =
+        document.getElementById('timeInput').value;
+
+    if(!selectedDate){
+        alert("📅 Please select a date.");
+        return;
+    }
+
+    if(!selectedTime){
+        alert("⏰ Please select a time.");
+        return;
+    }
+
+    dateResponse.selectedDate = selectedDate;
+    dateResponse.selectedTime = selectedTime;
+
+    const chosenDate = new Date(selectedDate);
+
+    // Month is 0-indexed, so July = 6
+    const availableDate = new Date(2026, 6, 20);
+
+    if(chosenDate < availableDate){
+        nextStep(5); // Busy screen
+    } else {
+        nextStep(6); // Can't wait screen
+    }
+
+    console.log(dateResponse);
+}
+
+function saveTime(){
+
+    dateResponse.selectedTime =
+    document.getElementById('timeInput').value;
+
+    console.log(dateResponse);
+
+   async function saveDate(){
+
+    const selectedDate =
+        document.getElementById('dateInput').value;
+
+    const selectedTime =
+        document.getElementById('timeInput').value;
+
+    if(!selectedDate){
+        alert("Please select a date");
+        return;
+    }
+
+    if(!selectedTime){
+        alert("Please select a time");
+        return;
+    }
+
+    dateResponse.selectedDate = selectedDate;
+    dateResponse.selectedTime = selectedTime;
+
+    try{
+
+        await fetch(
+            SCRIPT_URL,
+            {
+                method:"POST",
+                body:JSON.stringify(dateResponse)
+            }
+        );
+
+    }catch(error){
+        console.error(error);
+    }
+
+    nextStep(6);
+}
+}
+
+let noClickCount = 0;
+function handleNoClick() {
+
+    noClickCount++;
+
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const card = document.getElementById("step1");
+
+    // Grow YES button
+    const scale = Math.min(1 + (noClickCount * 0.15), 1.8);
+    yesBtn.style.transform = `scale(${scale})`;
+
+    // Move NO button within card
+    noBtn.style.position = "absolute";
+
+    const cardRect = card.getBoundingClientRect();
+
+    const maxX = cardRect.width - noBtn.offsetWidth - 40;
+    const maxY = cardRect.height - noBtn.offsetHeight - 40;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    // Hide after 5 clicks
+    if (noClickCount >= 5) {
+        noBtn.style.display = "none";
+
+        document.getElementById("statusMessage").innerHTML =
+            "😏 Looks like YES is the only option left now My Lovely Partner 💕";
+    }
+}
+
+function doPost(e) {
+
+  const sheet =
+    SpreadsheetApp.getActiveSpreadsheet()
+      .getSheetByName("Sheet1");
+
+  const data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    new Date(),
+    data.accepted,
+    data.foodChoice,
+    data.selectedDate,
+    data.selectedTime
+  ]);
+
+  return ContentService
+    .createTextOutput(
+      JSON.stringify({
+        success: true
+      })
+    )
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
+}
+
+const SCRIPT_URL =
+"https://script.google.com/u/0/home/projects/1wvBI_c94Rp4XtwjgR7oZZRTBxXJb0z7Ae-Z82bgNalG1Y9eglhEpm0jM";
+
+</script>
+
+</body>
+</html>
